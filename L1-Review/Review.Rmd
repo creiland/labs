@@ -10,19 +10,47 @@ output: html_document
 #https://www.healthdata.gov/dataset/deaths-pnuemonia-and-influneza-and-all-deaths-state-and-region-national-center-health
 
 #We will be requiring knitr, dplyr, and ggplot2
-
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(magrittr)
 
 
 #Read in the dataset
-
+setwd("c:/Users/creil/Desktop/Winter 2017/Info498/labs/labs/L1-Review")
+data <- data.frame(read.csv("flu_deaths.csv"))
 
 
 #Handle NA values
-
-
+data[is.na(data)] <- 0
 
 
 #Create one summary table and one plot about two different aspects of the dataset. Include a small paragraph explaining what each table/plot is showing.
+percent <- data$Deaths.from.pneumonia.and.influenza / data$All.Deaths * 100
+data$percentage.of.deaths.from.flu <- round(percent, 2)
+
+
+percentage_data_2009 <- filter(data, season == "2009-10") %>% select(percentage.of.deaths.from.flu)
+percentage_mean_2009 <- mean(percentage_data_2009$percentage.of.deaths.from.flu)
+
+percentage_data_2010 <- filter(data, season == "2010-11") %>% select(percentage.of.deaths.from.flu)
+percentage_mean_2010 <- mean(percentage_data_2010$percentage.of.deaths.from.flu)
+
+percentage_data_2011 <- filter(data, season == "2011-12") %>% select(percentage.of.deaths.from.flu)
+percentage_mean_2011 <- mean(percentage_data_2011$percentage.of.deaths.from.flu)
+
+percentage_data_2012 <- filter(data, season == "2012-13") %>% select(percentage.of.deaths.from.flu)
+percentage_mean_2012 <- mean(percentage_data_2012$percentage.of.deaths.from.flu)
+
+percentage_data_2013 <- filter(data, season == "2013-14") %>% select(percentage.of.deaths.from.flu)
+percentage_mean_2013 <- mean(percentage_data_2013$percentage.of.deaths.from.flu)
+
+mean <- (c(percentage_mean_2009, percentage_mean_2010, percentage_mean_2011, percentage_mean_2012, percentage_mean_2013))
+
+years <- c("2009-10", "2010-11", "2011-12", "2012-13", "2013-14")
+
+percentage_means <- data.frame(mean, years)
+
 
 ```
 
